@@ -24,7 +24,7 @@ jobs:
         run: ls -la
 
       - name: Verify Dockerfile location
-        run: ls -al
+        run: pwd
         
       - uses: actions/checkout@v3
       - name: docker login
