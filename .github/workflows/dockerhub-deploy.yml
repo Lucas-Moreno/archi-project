@@ -34,9 +34,9 @@ jobs:
         run : |
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       - name: docker build
-      run: |
-        cd back-nodejs
-        docker build . --file Dockerfile --tag Lucas-Moreno/back-nodejs:$(date +%s)
+        run: |
+          cd back-nodejs
+          docker build . --file Dockerfile --tag Lucas-Moreno/back-nodejs:$(date +%s)
 
       - name: docker push
         run: docker push ${{secrets.DOCKER_USER}}/back-nodejs
