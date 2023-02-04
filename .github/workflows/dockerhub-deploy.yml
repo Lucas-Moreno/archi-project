@@ -20,15 +20,6 @@ jobs:
           repository: Lucas-Moreno/back-nodejs
           ref: main
 
-      - name: Verify 1
-        run: ls /home/runner/work/archi-project/archi-project
-
-      - name: Verify 2
-        run: cat /home/runner/work/archi-project/archi-project/Dockerfile 
-
-      - name: Verify 3
-        run: ls /home/runner/work/archi-project/archi-project/Dockerfile 
-
       - uses: actions/checkout@v3
       - name: docker login
         env: 
@@ -37,7 +28,7 @@ jobs:
         run : |
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       - name: docker build
-        run: docker build /home/runner/work/archi-project/archi-project/ -f /home/runner/work/archi-project/archi-project/Dockerfile --tag lucasmoreno82/back-nodejs:$(date +%s)
+        run: docker build . --file /home/runner/work/archi-project/archi-project/Dockerfile --tag lucasmoreno82/back-nodejs:$(date +%s)
 
       - name: docker push
         run: docker push ${{secrets.DOCKER_USER}}/back-nodejs
