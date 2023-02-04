@@ -28,9 +28,11 @@ jobs:
         run : |
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       - name: docker build
-        run: docker build /home/runner/work/archi-project/archi-project/Dockerfile --tag back-test:$(date +%s)
+        run: ls /home/runner/work/archi-project/archi-project/Dockerfile
+          
+          # docker build /home/runner/work/archi-project/archi-project/Dockerfile --tag back-test:$(date +%s)
           
           # docker build . --file /home/runner/work/archi-project/archi-project/Dockerfile --tag lucasmoreno82/back-nodejs:$(date +%s)
 
-      - name: docker push
-        run: docker push ${{secrets.DOCKER_USER}}/back-nodejs
+      # - name: docker push
+      #   run: docker push ${{secrets.DOCKER_USER}}/back-nodejs
