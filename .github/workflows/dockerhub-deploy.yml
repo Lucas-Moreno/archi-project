@@ -13,6 +13,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+      - name: Checkout the repository that contains Dockerfile
+        uses: actions/checkout@v3
+        with:
+          repository: Lucas-Moreno/back-nodejs
+          ref: main
+
       - uses: actions/checkout@v3
       - name: docker login
         env: 
