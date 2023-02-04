@@ -19,7 +19,13 @@ jobs:
         with:
           repository: Lucas-Moreno/back-nodejs
           ref: main
-        
+
+      - name: Verify 1
+        run: ls /home/runner/work/archi-project
+
+      - name: Verify 2
+        run: ls /home/runner/work/archi-project/archi-project/     
+
       - uses: actions/checkout@v3
       - name: docker login
         env: 
