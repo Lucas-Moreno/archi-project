@@ -21,10 +21,13 @@ jobs:
           ref: main
 
       - name: Verify 1
-        run: ls /home/runner/work/archi-project
+        run: ls /home/runner/work/archi-project/archi-project
 
       - name: Verify 2
-        run: ls /home/runner/work/archi-project/archi-project/     
+        run: cat /home/runner/work/archi-project/archi-project/Dockerfile 
+
+      - name: Verify 3
+        run: ls /home/runner/work/archi-project/archi-project/Dockerfile 
 
       - uses: actions/checkout@v3
       - name: docker login
