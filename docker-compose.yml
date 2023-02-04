@@ -1,0 +1,16 @@
+version: '3'
+services:
+  frontend:
+    image: <frontend-image-name>
+    ports:
+      - "3001:3001"
+  backend:
+    image: <backend-image-name>
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGO_URI=${MONGO_URI}
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
