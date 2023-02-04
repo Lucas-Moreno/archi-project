@@ -14,12 +14,6 @@ jobs:
 
     steps:
 
-      - name: Checkout the repository that contains Dockerfile
-        uses: actions/checkout@v3
-        with:
-          repository: Lucas-Moreno/back-nodejs
-          ref: main
-
       - uses: actions/checkout@v3
       - name: docker login
         env: 
@@ -27,8 +21,14 @@ jobs:
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
         run : |
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+
+      - name: Checkout the repository that contains Dockerfile
+        uses: actions/checkout@v3
+        with:
+          repository: Lucas-Moreno/back-nodejs
+          ref: main
       - name: docker build
-        run: ls /home/runner/work/archi-project/archi-project
+        run: ls /home/runner/work/archi-project/archi-project/Dockerfile
           
           # docker build /home/runner/work/archi-project/archi-project/Dockerfile --tag back-test:$(date +%s)
           
