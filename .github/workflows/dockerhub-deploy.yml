@@ -20,6 +20,9 @@ jobs:
           repository: Lucas-Moreno/back-nodejs
           ref: main
 
+      - name: Verify the checkout
+        run: ls -la
+        
       - uses: actions/checkout@v3
       - name: docker login
         env: 
