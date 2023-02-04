@@ -25,9 +25,6 @@ jobs:
 
       - name: Verify Dockerfile location
         run: ls -al
-
-      - name: Print current working directory
-        run: echo "Current directory: $(pwd)"
         
       - uses: actions/checkout@v3
       - name: docker login
@@ -37,9 +34,9 @@ jobs:
         run : |
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       - name: docker build
-        run: docker build . --file Dockerfile --tag lucasmoreno82/back-nodejs:$(date +%s)
-            #  docker build /path/to/Dockerfile --tag ***/back-nodejs:$(date +%s)
-
+      run: |
+        cd back-nodejs
+        docker build . --file Dockerfile --tag Lucas-Moreno/back-nodejs:$(date +%s)
 
       - name: docker push
         run: docker push ${{secrets.DOCKER_USER}}/back-nodejs
