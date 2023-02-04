@@ -31,4 +31,4 @@ jobs:
         run: docker build . --file /home/runner/work/archi-project/archi-project/Dockerfile --tag lucasmoreno82/back-nodejs:$(date +%s)
           
       - name: docker push
-        run: docker push ${{secrets.DOCKER_USER}}/back-nodejs:$(date +%s)
+        run: docker push ${{secrets.DOCKER_USER}}/back-nodejs:v1.0
