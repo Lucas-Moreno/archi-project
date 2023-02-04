@@ -28,7 +28,7 @@ jobs:
           repository: Lucas-Moreno/back-nodejs
           ref: main
       - name: docker build
-        run: docker build . --file /home/runner/work/archi-project/archi-project/Dockerfile --tag lucasmoreno82/back-nodejs:$(date +%s)
+        run: docker build . --file /home/runner/work/archi-project/archi-project/Dockerfile --tag lucasmoreno82/back-nodejs:latest
           
       - name: docker tag
         run: docker tag ${{secrets.DOCKER_USER}}/back-nodejs:latest ${{secrets.DOCKER_USER}}/back-nodejs:$(date +%s)
