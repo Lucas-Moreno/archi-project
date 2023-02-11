@@ -25,10 +25,8 @@ jobs:
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       - name: test
         run: echo ${{env.IMAGE_VERSION}}
-      - name: Increment version
-        run: echo ${{env.IMAGE_VERSION%.*}}.$((${env.IMAGE_VERSION##*.}+1)) >> $GITHUB_ENV
-      - name: test 2
-        run: echo ${{env.IMAGE_VERSION}}
+      # - name: Increment version
+      #   run: echo ${{env.IMAGE_VERSION%.*}}.$((${env.IMAGE_VERSION##*.}+1)) >> $GITHUB_ENV
 
       # - name: Checkout the repository that contains Dockerfile
       #   uses: actions/checkout@v3
