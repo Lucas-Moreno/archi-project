@@ -12,7 +12,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      IMAGE_VERSION: v1.$(date +%s)
+      IMAGE_VERSION: v$(git describe --tags)
 
     steps:
 
@@ -21,19 +21,25 @@ jobs:
         env: 
           DOCKER_USER: ${{secrets.DOCKER_USER}}
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-        run : |
-          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
 
-      - name: Checkout the repository that contains Dockerfile
-        uses: actions/checkout@v3
-        with:
-          repository: Lucas-Moreno/back-nodejs
-          ref: main
-      - name: docker build
-        run: docker build . --file /home/runner/work/archi-project/archi-project/Dockerfile --tag lucasmoreno82/back-nodejs:${{ env.IMAGE_VERSION }}
+      - name: test
+        run: echo ${{env.IMAGE_VERSION}}
+
+      - name: test 2
+        run: echo ${{env.IMAGE_VERSION}} + 1
+      #   run : |
+      #     docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+
+      # - name: Checkout the repository that contains Dockerfile
+      #   uses: actions/checkout@v3
+      #   with:
+      #     repository: Lucas-Moreno/back-nodejs
+      #     ref: main
+      # - name: docker build
+      #   run: docker build . --file /home/runner/work/archi-project/archi-project/Dockerfile --tag lucasmoreno82/back-nodejs:${{ env.IMAGE_VERSION }}
           
-      - name: docker tag
-        run: docker tag ${{secrets.DOCKER_USER}}/back-nodejs:${{ env.IMAGE_VERSION }} ${{secrets.DOCKER_USER}}/back-nodejs:$(date +%s)
+      # - name: docker tag
+      #   run: docker tag ${{secrets.DOCKER_USER}}/back-nodejs:${{ env.IMAGE_VERSION }} ${{secrets.DOCKER_USER}}/back-nodejs:$(date +%s)
 
-      - name: docker push
-        run: docker push ${{secrets.DOCKER_USER}}/back-nodejs:${{ env.IMAGE_VERSION }}
+      # - name: docker push
+      #   run: docker push ${{secrets.DOCKER_USER}}/back-nodejs:${{ env.IMAGE_VERSION }}
