@@ -4,13 +4,26 @@ services:
     image: lucasmoreno82/front-reactjs:latest
     ports:
       - "3001:3001"
+    environment:
+      - PORT=3001
+    depends_on:
+      - backend
   backend:
     image: lucasmoreno82/back-nodejs:v1.0.0
     ports:
       - "3000:3000"
-    environment:
-      - MONGO_URI=${MONGO_URI}
+    env_file:
+      - .env
+    depends_on:
+      - mongodb
   mongodb:
     image: mongo
+    env_file:
+      - .env
     ports:
       - "27017:27017"
+    volumes:
+      - mongodb:/data/db
+
+volumes:
+  mongodb:

@@ -11,6 +11,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      IMAGE_VERSION: v1.$(date +%s)
 
     steps:
 
@@ -28,10 +30,10 @@ jobs:
           repository: Lucas-Moreno/back-nodejs
           ref: main
       - name: docker build
-        run: docker build . --file /home/runner/work/archi-project/archi-project/Dockerfile --tag lucasmoreno82/back-nodejs:v1.0.0
+        run: docker build . --file /home/runner/work/archi-project/archi-project/Dockerfile --tag lucasmoreno82/back-nodejs:${{ env.IMAGE_VERSION }}
           
       - name: docker tag
-        run: docker tag ${{secrets.DOCKER_USER}}/back-nodejs:v1.0.0 ${{secrets.DOCKER_USER}}/back-nodejs:$(date +%s)
+        run: docker tag ${{secrets.DOCKER_USER}}/back-nodejs:${{ env.IMAGE_VERSION }} ${{secrets.DOCKER_USER}}/back-nodejs:$(date +%s)
 
       - name: docker push
-        run: docker push ${{secrets.DOCKER_USER}}/back-nodejs:v1.0.0
+        run: docker push ${{secrets.DOCKER_USER}}/back-nodejs:${{ env.IMAGE_VERSION }}
