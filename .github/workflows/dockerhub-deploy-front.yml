@@ -38,10 +38,10 @@ jobs:
           repository: Lucas-Moreno/front-reactjs
           ref: main
       - name: docker build
-        run: docker build . --file /home/runner/work/archi-project/archi-project/Dockerfile --tag lucasmoreno82/front-reactjs:${{ steps.increment_tag.outputs.incremented-tag }}
+        run: docker build . --file /home/runner/work/archi-project/archi-project/Dockerfile --tag lucasmoreno82/front-reactjs:v1.0.0
           
       - name: docker tag
-        run: docker tag ${{secrets.DOCKER_USER}}/front-reactjs:${{ steps.increment_tag.outputs.incremented-tag }} ${{secrets.DOCKER_USER}}/front-reactjs:${{ steps.increment_tag.outputs.incremented-tag }}
+        run: docker tag ${{secrets.DOCKER_USER}}/front-reactjs:v1.0.0 ${{secrets.DOCKER_USER}}/front-reactjs:v1.0.0
 
       - name: docker push
-        run: docker push ${{secrets.DOCKER_USER}}/front-reactjs:${{ steps.increment_tag.outputs.incremented-tag }}
+        run: docker push ${{secrets.DOCKER_USER}}/front-reactjs:v1.0.0
