@@ -30,24 +30,17 @@ jobs:
         run: |
           INCREMENT_TAG=$(echo ${{ env.TAG_DOCKER }} | awk -F. -v OFS=. '{$NF++; print}')
           echo "::set-output name=incremented-tag::$INCREMENT_TAG"
-        
-      - name: Afficher la variable $INCREMENT_TAG
-        run: echo ${{ steps.increment_tag.outputs.incremented-tag }}
-  
 
-      # - name: Increment version
-      #   run: echo ${{env.IMAGE_VERSION%.*}}.$((${env.IMAGE_VERSION##*.}+1)) >> $GITHUB_ENV
-
-      # - name: Checkout the repository that contains Dockerfile
-      #   uses: actions/checkout@v3
-      #   with:
-      #     repository: Lucas-Moreno/back-nodejs
-      #     ref: main
-      # - name: docker build
-      #   run: docker build . --file /home/runner/work/archi-project/archi-project/Dockerfile --tag lucasmoreno82/back-nodejs:${{ env.IMAGE_VERSION }}
+      - name: Checkout the repository that contains Dockerfile
+        uses: actions/checkout@v3
+        with:
+          repository: Lucas-Moreno/back-nodejs
+          ref: main
+      - name: docker build
+        run: docker build . --file /home/runner/work/archi-project/archi-project/Dockerfile --tag lucasmoreno82/back-nodejs:${{ steps.increment_tag.outputs.incremented-tag }}
           
-      # - name: docker tag
-      #   run: docker tag ${{secrets.DOCKER_USER}}/back-nodejs:${{ env.IMAGE_VERSION }} ${{secrets.DOCKER_USER}}/back-nodejs:$(date +%s)
+      - name: docker tag
+        run: docker tag ${{secrets.DOCKER_USER}}/back-nodejs:${{ steps.increment_tag.outputs.incremented-tag }} ${{secrets.DOCKER_USER}}/back-nodejs:${{ steps.increment_tag.outputs.incremented-tag }}
 
-      # - name: docker push
-      #   run: docker push ${{secrets.DOCKER_USER}}/back-nodejs:${{ env.IMAGE_VERSION }}
+      - name: docker push
+        run: docker push ${{secrets.DOCKER_USER}}/back-nodejs:${{ steps.increment_tag.outputs.incremented-tag }}
