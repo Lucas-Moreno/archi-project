@@ -11,8 +11,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      IMAGE_VERSION: v$(git describe --tags)
 
     steps:
 
@@ -23,8 +21,8 @@ jobs:
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
         run : |
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - name: test
-        run: echo ${{env.IMAGE_VERSION}}
+      - name: Afficher la dernière version de l'image Docker
+        run: echo $(curl -s https://registry.hub.docker.com/v2/repositories/lucasmoreno82/back-nodejs/tags/?page_size=1 | jq -r '.results[].name')
       # - name: Increment version
       #   run: echo ${{env.IMAGE_VERSION%.*}}.$((${env.IMAGE_VERSION##*.}+1)) >> $GITHUB_ENV
 
