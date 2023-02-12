@@ -12,6 +12,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      TAG_DOCKER: $(curl -s https://registry.hub.docker.com/v2/repositories/lucasmoreno82/back-nodejs/tags/?page_size=1 | jq -r '.results[].name')
+      DOCKER_IMAGE_TAG: ${{ steps.docker_tag.outputs.tag }}
     steps:
 
       - uses: actions/checkout@v3
@@ -21,8 +24,11 @@ jobs:
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
         run : |
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - name: Afficher la dernière version de l'image Docker
-        run: echo $(curl -s https://registry.hub.docker.com/v2/repositories/lucasmoreno82/back-nodejs/tags/?page_size=1 | jq -r '.results[].name')
+      - name: Tag Docker
+        run: echo ${{ env.TAG_DOCKER }}
+
+      - name: Tag Docker 2
+        run: echo ${{ env.DOCKER_IMAGE_TAG }}
       # - name: Increment version
       #   run: echo ${{env.IMAGE_VERSION%.*}}.$((${env.IMAGE_VERSION##*.}+1)) >> $GITHUB_ENV
 
