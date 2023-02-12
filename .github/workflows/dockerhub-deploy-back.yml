@@ -12,6 +12,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      TAG_DOCKER: $(curl -s https://registry.hub.docker.com/v2/repositories/lucasmoreno82/back-nodejs/tags/?page_size=1 | jq -r '.results[].name')
+
     steps:
 
       - uses: actions/checkout@v3
@@ -24,10 +27,8 @@ jobs:
 
       - name: Incrémenter le tag Docker
         id: increment_tag
-        env:
-          TAG_DOCKER: $(curl -s https://registry.hub.docker.com/v2/repositories/lucasmoreno82/back-nodejs/tags/?page_size=1 | jq -r '.results[].name')
         run: |
-          INCREMENT_TAG=$(echo $TAG_DOCKER | awk -F. -v OFS=. '{$NF++; print}')
+          INCREMENT_TAG=$(echo ${{ env.TAG_DOCKER }} | awk -F. -v OFS=. '{$NF++; print}')
           echo "::set-output name=incremented-tag::$INCREMENT_TAG"
         
       - name: Afficher la variable $INCREMENT_TAG
