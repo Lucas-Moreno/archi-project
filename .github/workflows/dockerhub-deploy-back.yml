@@ -22,16 +22,16 @@ jobs:
         run : |
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
 
-        - name: Incrémenter le tag Docker
-          id: increment_tag
-          env:
-            TAG_DOCKER: $(curl -s https://registry.hub.docker.com/v2/repositories/lucasmoreno82/back-nodejs/tags/?page_size=1 | jq -r '.results[].name')
-          run: |
-            INCREMENT_TAG=$(echo $TAG_DOCKER | awk -F. -v OFS=. '{$NF++; print}')
-            echo "::set-output name=incremented-tag::$INCREMENT_TAG"
-          
-        - name: Afficher la variable $INCREMENT_TAG
-          run: echo ${{ steps.increment_tag.outputs.incremented-tag }}
+      - name: Incrémenter le tag Docker
+        id: increment_tag
+        env:
+          TAG_DOCKER: $(curl -s https://registry.hub.docker.com/v2/repositories/lucasmoreno82/back-nodejs/tags/?page_size=1 | jq -r '.results[].name')
+        run: |
+          INCREMENT_TAG=$(echo $TAG_DOCKER | awk -F. -v OFS=. '{$NF++; print}')
+          echo "::set-output name=incremented-tag::$INCREMENT_TAG"
+        
+      - name: Afficher la variable $INCREMENT_TAG
+        run: echo ${{ steps.increment_tag.outputs.incremented-tag }}
   
 
       # - name: Increment version
