@@ -12,6 +12,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      TAG_DOCKER: $(curl -s https://registry.hub.docker.com/v2/repositories/lucasmoreno82/front-reactjs/tags/?page_size=1 | jq -r '.results[].name')
+
     steps:
 
       - uses: actions/checkout@v3
@@ -22,16 +25,23 @@ jobs:
         run : |
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
 
+      - name: Incrémenter le tag Docker
+        id: increment_tag
+        run: |
+          INCREMENT_TAG=$(echo ${{ env.TAG_DOCKER }} | awk -F. -v OFS=. '{$NF++; print}')
+          echo "::set-output name=incremented-tag::$INCREMENT_TAG"
+
+
       - name: Checkout the repository that contains Dockerfile
         uses: actions/checkout@v3
         with:
           repository: Lucas-Moreno/front-reactjs
           ref: main
       - name: docker build
-        run: docker build . --file /home/runner/work/archi-project/archi-project/Dockerfile --tag lucasmoreno82/front-reactjs:latest
+        run: docker build . --file /home/runner/work/archi-project/archi-project/Dockerfile --tag lucasmoreno82/front-reactjs:${{ steps.increment_tag.outputs.incremented-tag }}
           
       - name: docker tag
-        run: docker tag ${{secrets.DOCKER_USER}}/front-reactjs:latest ${{secrets.DOCKER_USER}}/front-reactjs:$(date +%s)
+        run: docker tag ${{secrets.DOCKER_USER}}/front-reactjs:${{ steps.increment_tag.outputs.incremented-tag }} ${{secrets.DOCKER_USER}}/front-reactjs:${{ steps.increment_tag.outputs.incremented-tag }}
 
       - name: docker push
-        run: docker push ${{secrets.DOCKER_USER}}/front-reactjs:latest
+        run: docker push ${{secrets.DOCKER_USER}}/front-reactjs:${{ steps.increment_tag.outputs.incremented-tag }}
