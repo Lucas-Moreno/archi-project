@@ -14,6 +14,7 @@ jobs:
 
     env:
       TAG_DOCKER: $(curl -s https://registry.hub.docker.com/v2/repositories/lucasmoreno82/back-nodejs/tags/?page_size=1 | jq -r '.results[].name')
+      INCREMENT_TAG: $(echo ${{ env.TAG_DOCKER }} | awk -F. -v OFS=. '{$NF++; print}')
 
     steps:
 
@@ -24,11 +25,9 @@ jobs:
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
         run : |
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - name: Tag Docker
-        run: echo ${{ env.TAG_DOCKER }}
 
       - name: Tag Docker + 1
-        run: echo "Le tag incrémenté est $(echo ${{ env.TAG_DOCKER }} | awk -F. -v OFS=. '{$NF++; print}')"
+        run: ${{ env.INCREMENT_TAG }}
 
       # - name: Increment version
       #   run: echo ${{env.IMAGE_VERSION%.*}}.$((${env.IMAGE_VERSION##*.}+1)) >> $GITHUB_ENV
