@@ -8,6 +8,11 @@ on:
 
   workflow_dispatch:
 
+inputs:
+  dockerhub-deploy-back:
+    description: 'Dockerhub Deploy image Back'
+    required: true
+    
 jobs:
   build:
     runs-on: ubuntu-latest
