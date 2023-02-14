@@ -1,21 +1,24 @@
 version: '3'
 services:
+
   frontend:
-    image: lucasmoreno82/front-reactjs:latest
+    image: lucasmoreno82/front-reactjs:${TAG_DOCKER_FRONT}
     ports:
-      - "3001:3001"
-    environment:
-      - PORT=3001
+      - ${PORT_FRONT}:${PORT_FRONT}
+    env_file:
+      - .env
     depends_on:
       - backend
+
   backend:
-    image: lucasmoreno82/back-nodejs:v1.0.0
+    image: lucasmoreno82/back-nodejs:${TAG_DOCKER_BACK}
     ports:
-      - "3000:3000"
+      - ${PORT_BACK}:${PORT_BACK}
     env_file:
       - .env
     depends_on:
       - mongodb
+
   mongodb:
     image: mongo
     env_file:
